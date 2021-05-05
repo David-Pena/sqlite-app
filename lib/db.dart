@@ -26,7 +26,8 @@ class DB {
     return _db;
   }
 
-  showCustomDialog(BuildContext context, String title, String content, int type) {
+  showCustomDialog(BuildContext context, String title, String content, int type,
+      bool isNotOne) {
     showDialog(
         context: context,
         builder: (context) {
@@ -67,7 +68,12 @@ class DB {
                     margin: EdgeInsets.only(top: 10),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        if (isNotOne) {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                        } else {
+                          Navigator.of(context).pop();
+                        }
                       },
                       child: Text(
                         "Ok",
@@ -113,17 +119,17 @@ class DB {
               "')";
       try {
         await txn.rawInsert(query);
-        showCustomDialog(context, "Success",
-            "The person was registered successfully", 1);
+        showCustomDialog(
+            context, "Success", "The person was registered successfully", 1, true);
         val = true;
       } catch (e) {
         if (e.isUniqueConstraintError()) {
           showCustomDialog(context, "Warning",
-              "Document number is in use, please change it", 2);
+              "Document number is in use, please change it", 2, false);
           val = false;
         } else {
-          showCustomDialog(context, "Error",
-              "There was an error registering the person", 2);
+          showCustomDialog(
+              context, "Error", "There was an error registering the person", 2, false);
           val = false;
         }
       }
@@ -152,8 +158,8 @@ class DB {
       try {
         return await txn.rawDelete(query);
       } catch (e) {
-        showCustomDialog(context, "Error",
-            "There was an error deleting the person", 2);
+        showCustomDialog(
+            context, "Error", "There was an error deleting the person", 2, false);
       }
     });
     return 0;
@@ -166,10 +172,10 @@ class DB {
       await dbClient.update(TABLE, person.toMap(),
           where: '$DOCUMENT = ?', whereArgs: [person.document]);
       showCustomDialog(context, "Success",
-          "The person's information was updated successfully", 1);
+          "The person's information was updated successfully", 1, true);
     } catch (e) {
       showCustomDialog(context, "Error",
-          "There was an error updating the person's information", 2);
+          "There was an error updating the person's information", 2, false);
     }
     return val;
   }

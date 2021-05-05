@@ -13,10 +13,11 @@ class Validation {
   void showToastText() {
     Fluttertoast.showToast(
       msg: 'You have to complete all the fields',
-      toastLength: Toast.LENGTH_LONG,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      gravity: ToastGravity.BOTTOM,
+      toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.yellow,
+        textColor: Colors.white,
+        fontSize: 16.0
     );
   }
 
@@ -24,7 +25,6 @@ class Validation {
     Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
     );
   }
 }

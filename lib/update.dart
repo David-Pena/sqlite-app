@@ -25,7 +25,6 @@ class _UpdateState extends State<Update> {
   TextEditingController dateTextController = new TextEditingController();
 
   var date;
-  // var newFormat = DateFormat("yy-MM-dd");
   String document, name, address, place, dateText;
 
   @override
@@ -42,6 +41,22 @@ class _UpdateState extends State<Update> {
   }
 
   List places = ['Home', 'Hospitalization', 'UCI'];
+  DateTime currentDate = DateTime.now();
+
+  Future<void> pickDate(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: currentDate,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2036));
+    if (pickedDate != null) {
+      setState(() {
+        currentDate = pickedDate;
+        date = "${currentDate.toLocal()}".split(' ')[0];
+        dateTextController.text = date;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,18 +154,7 @@ class _UpdateState extends State<Update> {
                       hintStyle: TextStyle(color: Colors.grey),
                     ),
                     onTap: () {
-                      showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2021),
-                        lastDate: DateTime(2030),
-                      ).then((data) {
-                        setState(() {
-                          date = "2002-02-28";
-                          // dateTextController.text = newFormat.format(data);
-                          // date = newFormat.format(data);
-                        });
-                      });
+                      pickDate(context);
                     }),
               ),
               Container(

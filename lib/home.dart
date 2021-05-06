@@ -237,7 +237,7 @@ class _HomeState extends State<Home> {
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.045,
                         )),
-                    Text("Is Atended in: ${person.place}",
+                    Text("Is attended at: ${person.place}",
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.045,
                         )),
